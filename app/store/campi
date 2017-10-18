@@ -1,0 +1,58 @@
+import axios from 'axios';
+
+// ACTION TYPES
+const GET_CAMPUS = 'GET_CAMPUS';
+const GET_CAMPI = 'GET_CAMPI';
+
+// ACTION CREATORS
+export function getCampus (campus) {
+  const action = { type: GET_CAMPUS, campus };
+  return action;
+}
+
+export function getCampi (campi) {
+  const action = { type: GET_CAMPI, campi };
+  return action;
+}
+
+// THUNK CREATORS
+export function fetchCampi() {
+
+  return function thunk (dispatch) {
+    return axios.get('/api/campus')
+      .then(res => res.data)
+      .then(campi => {
+        const action = getCampi(campi);
+        dispatch(action);
+      }).catch(console.log);
+  };
+
+}
+//
+// export function postChannel (campus, history) {
+//
+//   return function thunk (dispatch) {
+//     return axios.post('/api/campus', campus)
+//       .then(res => res.data)
+//       .then(newCampus => {
+//         dispatch(getCampus(newCampus));
+//         // history.push(`/campus/${newCampus.id}`);
+//       });
+//   };
+// }
+
+// REDUCER
+export default function reducer (state = [], action) {
+  const nextState = Object.assign({}, state);
+  switch (action.type) {
+
+    case GET_CAMPI:
+      return nextState.campi = action.campi;
+
+    case GET_CAMPUS:
+      return [...state, action.campus];
+
+    default:
+      return state;
+  }
+}
