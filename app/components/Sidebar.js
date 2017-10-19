@@ -17,6 +17,16 @@ const Sidebar = (props) => {
           <Link to="/students">STUDENTS</Link>
         </h4>
       </section>
+      <section>
+        <h4>
+          <Link className="btn btn-primary btn-block" to="/new-campus">add campus</Link>
+        </h4>
+      </section>
+      <section>
+        <h4>
+          <Link className="btn btn-primary btn-block" to="/new-student">add student</Link>
+        </h4>
+      </section>
     </sidebar>
   );
 }

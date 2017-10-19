@@ -13,8 +13,8 @@ function Campus (props) {
   return (
     <div className="campus">
       <div>
-        <h3>{ campus.name }</h3>
-        <img src={ campus.image } className="img-thumbnail" />
+        <h3>{ campus.hasOwnProperty('id') && campus.name }</h3>
+        <img src={ campus.hasOwnProperty('id') && campus.image } className="img-thumbnail" />
       </div>
       <Students campusStudents={students}/>
     </div>
@@ -22,6 +22,7 @@ function Campus (props) {
 }
 
 const mapStateToProps = function (state, ownProps) {
+  console.log('state of campus',state);
 
   const campusId = Number(ownProps.match.params.campusId);
   return {
@@ -31,4 +32,4 @@ const mapStateToProps = function (state, ownProps) {
   };
 };
 
-export default connect(mapStateToProps)(Campus);
+export default withRouter(connect(mapStateToProps)(Campus));

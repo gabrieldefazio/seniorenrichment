@@ -24,30 +24,43 @@ export function fetchCampi() {
       .then(campi => {
         const action = getCampi(campi);
         dispatch(action);
-      }).catch(console.log);
+      }).catch();
   };
 
 }
-//
-// export function postChannel (campus, history) {
-//
-//   return function thunk (dispatch) {
-//     return axios.post('/api/campus', campus)
-//       .then(res => res.data)
-//       .then(newCampus => {
-//         dispatch(getCampus(newCampus));
-//         // history.push(`/campus/${newCampus.id}`);
-//       });
-//   };
-// }
+
+export function fetchCampus(campusId) {
+
+  return function thunk (dispatch) {
+    return axios.get(`/api/campus/${campusId}`)
+      .then(res => res.data)
+      .then(campus => {
+        const action = getCampus(campus);
+        dispatch(action);
+      }).catch();
+  };
+
+}
+
+export function postCampus (campus, history) {
+
+  return function thunk (dispatch) {
+    return axios.post('/api/campus', campus)
+      .then(res => res.data)
+      .then(newCampus => {
+        dispatch(getCampus(newCampus));
+        history.push(`/campi/${newCampus.id}`);
+      });
+  };
+}
 
 // REDUCER
 export default function reducer (state = [], action) {
-  const nextState = Object.assign({}, state);
+
   switch (action.type) {
 
     case GET_CAMPI:
-      return nextState.campi = action.campi;
+      return action.campi;
 
     case GET_CAMPUS:
       return [...state, action.campus];
@@ -55,4 +68,5 @@ export default function reducer (state = [], action) {
     default:
       return state;
   }
+
 }

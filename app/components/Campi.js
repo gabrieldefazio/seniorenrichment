@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 function Campi (props) {
   const { campi } = props;
+  console.log("routeProps", props.routeProps)
 
   return(
     <div>

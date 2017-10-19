@@ -1,0 +1,46 @@
+// Initial State
+let initialState = {
+  newCampusName: "", newCampusLocation: "", newCampusImage: ""
+};
+
+// ACTION TYPES
+
+const WRITE_CAMPUS_NAME = 'WRITE_CAMPUS_NAME';
+const WRITE_CAMPUS_IMAGE = 'WRITE_CAMPUS_IMAGE'
+const WRITE_CAMPUS_LOCATION = 'WRITE_CAMPUS_LOCATION';
+// ACTION CREATORS
+
+export function writeCampusName (campusName) {
+  const action = { type: WRITE_CAMPUS_NAME, campusName };
+  return action;
+}
+
+export function writeCampusLocation (campusLocation) {
+  const action = { type: WRITE_CAMPUS_LOCATION, campusLocation };
+  return action;
+}
+
+export function writeCampusImage (campusImage) {
+  const action = { type: WRITE_CAMPUS_IMAGE, campusImage };
+  return action;
+}
+
+// REDUCER
+export default function reducer (state = initialState, action) {
+  const nextState = Object.assign({}, state);
+
+  switch (action.type) {
+
+    case WRITE_CAMPUS_NAME:
+      return nextState.campusName = action.campusName;
+
+    case WRITE_CAMPUS_LOCATION:
+      return nextState.campusLocation = action.campusLocation;
+
+    case WRITE_CAMPUS_IMAGE:
+      return nextState.campusImage = action.campusImage;
+
+    default:
+      return state;
+  }
+}

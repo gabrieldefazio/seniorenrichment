@@ -24,34 +24,46 @@ export function fetchStudents() {
       .then(students => {
         const action = getStudents(students);
         dispatch(action);
-      }).catch(console.log);
+      }).catch();
   };
 
 }
-//
-// export function postChannel (campus, history) {
-//
-//   return function thunk (dispatch) {
-//     return axios.post('/api/campus', campus)
-//       .then(res => res.data)
-//       .then(newCampus => {
-//         dispatch(getCampus(newCampus));
-//         // history.push(`/campus/${newCampus.id}`);
-//       });
-//   };
-// }
 
+export function fetchStudent(studentId) {
+
+  return function thunk (dispatch) {
+    return axios.get(`/api/students/${studentId}`)
+      .then(res => res.data)
+      .then(students => {
+        const action = getStudent(students);
+        dispatch(action);
+      }).catch();
+  };
+
+}
+
+export function postStudent (student, history, campusId) {
+
+  return function thunk (dispatch) {
+    return axios.post('/api/students', student)
+      .then(res => res.data)
+      .then(newStudent => {
+        dispatch(getStudent(newStudent));
+        history.push(`/campi/${campusId}`);
+      });
+  };
+}
 // REDUCER
 
-export default function reducer (state = {}, action) {
-  const nextState = Object.assign({}, state);
+export default function reducer (state = [], action) {
+
   switch (action.type) {
 
     case GET_STUDENT:
-        return nextState.student = action.student;
+        return [...state.students, action.student];
 
     case GET_STUDENTS:
-        return nextState.students = action.students;
+        return action.students;
 
     default:
       return state;

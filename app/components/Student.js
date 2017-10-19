@@ -1,31 +1,38 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
-import Students from "./Students"
+import { fetchStudent } from '../store/index';
 
+class Student extends Component{
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount(props){
+    const studentId = Number(props.routeProps.match.params.studentId);
+    fetchStudent(studentId)
+  }
 
-function Student (props) {
-  const { student } = props
-
-
-  return (
-    <div className="card">
-      <img src="https://i.pinimg.com/736x/19/44/a8/1944a8538980559a8c3ae656cd45af83--master-bedroom-bathroom-dream-bedroom.jpg.png" alt="Avatar"  />
+  render(){
+    const { student } = props;
+    const { campus } = props;
+    return(
+      <div >
         <div className="container">
-          <h4><b>John Doe</b></h4>
+          <h4>{campus.name}</h4>
+          <h4>{student.name}</h4>
           <p>Architect & Engineer</p>
         </div>
-    </div>
-  )
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = function (state, ownProps) {
-  const studentId = Number(ownProps.match.params.studentId);
 
   return {
-    // student: state.students.filter(student => student.id === studentId ),
-    // campus: state.campi.find(campus=> campus.id === this.student.campusId)
+    student: state.students.filter(student => student.id === studentId ),
+    campus: state.campi.find(campus=> campus.id === this.student.campusId)
   };
 };
 
-export default connect(mapStateToProps)(Student);
+export default withRouter(connect(mapStateToProps)(Student));
