@@ -1,0 +1,46 @@
+// Initial State
+let initialState = {
+  newStudentName: "", newStudentEmail: "", newStudentCampus: ""
+};
+
+// ACTION TYPES
+
+const WRITE_STUDENT_NAME = 'WRITE_STUDENT_NAME';
+const WRITE_STUDENT_EMAIL = 'WRITE_STUDENT_EMAIL'
+const WRITE_STUDENT_CAMPUS = 'WRITE_STUDENT_CAMPUS';
+// ACTION CREATORS
+
+export function writeStudentName (studentName) {
+  const action = { type: WRITE_STUDENT_NAME, studentName };
+  return action;
+}
+
+export function writeStudentCampus (studentCampus) {
+  const action = { type: WRITE_STUDENT_CAMPUS, studentCampus };
+  return action;
+}
+
+export function writeStudentEmail (studentEmail) {
+  const action = { type: WRITE_STUDENT_EMAIL, studentEmail };
+  return action;
+}
+
+// REDUCER
+export default function reducer (state = initialState, action) {
+  const nextState = Object.assign({}, state);
+
+  switch (action.type) {
+
+    case WRITE_STUDENT_NAME:
+      return nextState.studentName = action.studentName;
+
+    case WRITE_STUDENT_CAMPUS:
+      return nextState.newStudentCampus = action.studentCampus;
+
+    case WRITE_STUDENT_EMAIL:
+      return nextState.newStudentEmail = action.studentEmail;
+
+    default:
+      return state;
+  }
+}

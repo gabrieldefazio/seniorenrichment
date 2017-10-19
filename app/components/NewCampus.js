@@ -13,8 +13,8 @@ function NewCampus (props) {
       <div className="form-group">
         <label htmlFor="name">Campus Name</label>
         <input
-          value={newCampusName}
-          onChange={handleChangeName}
+          // value={newCampusName}
+          // onChange={handleChangeName}
           className="form-control"
           type="text"
           name="campusName"
@@ -22,8 +22,8 @@ function NewCampus (props) {
         />
         <label htmlFor="name">Campus Location</label>
         <input
-          value={newCampusLocation}
-          onChange={handleChangeLocation}
+          // value={newCampusLocation}
+          // onChange={handleChangeLocation}
           className="form-control"
           type="text"
           name="campusLocation"
@@ -31,8 +31,8 @@ function NewCampus (props) {
         />
         <label htmlFor="name">Link to an Image of the Campus</label>
         <input
-          value={newCampusImage}
-          onChange={handleChangeImage}
+          // value={newCampusImage}
+          // onChange={handleChangeImage}
           className="form-control"
           type="text"
           name="campusImage"
@@ -56,15 +56,15 @@ const mapStateToProps = function (state) {
 
 const mapDispatchToProps = function (dispatch, ownProps) {
   return {
-    handleChangeName (evt) {
-      dispatch(writeCampusName(evt.target.value));
-    },
-    handleChangeLocation (evt) {
-      dispatch(writeCampusLocation(evt.target.value));
-    },
-    handleChangeImage (evt) {
-      dispatch(writeCampusImage(evt.target.value));
-    },
+    // handleChangeName (evt) {
+    //   dispatch(writeCampusName(evt.target.value));
+    // },
+    // handleChangeLocation (evt) {
+    //   dispatch(writeCampusLocation(evt.target.value));
+    // },
+    // handleChangeImage (evt) {
+    //   dispatch(writeCampusImage(evt.target.value));
+    // },
     handleSubmit (evt) {
       evt.preventDefault();
       const newCampus = {
@@ -73,9 +73,9 @@ const mapDispatchToProps = function (dispatch, ownProps) {
         image: evt.target.campusImage.value
     };
       dispatch(postCampus(newCampus, ownProps.history));
-      dispatch(writeCampusLocation(''));
-      dispatch(writeCampusName(''));
-      dispatch(writeCampusImage(''));
+      // dispatch(writeCampusLocation(''));
+      // dispatch(writeCampusName(''));
+      // dispatch(writeCampusImage(''));
     }
   };
 };

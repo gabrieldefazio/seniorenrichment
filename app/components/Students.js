@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter, Redirect } from 'react-router-dom';
+import { withRouter, Redirect, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 function Students (props) {
@@ -12,24 +12,26 @@ function Students (props) {
     <table className='table'>
       <thead>
       <tr>
-        <th></th>
         <th>Name</th>
         <th>Email</th>
         <th>Campus</th>
+        <th>Update</th>
+        <th>Delete</th>
       </tr>
       </thead>
       <tbody>
       {
         students.map(student => (
-          <tr key={student.id} >
+          <tr key={student.id} type={student.id}>
             <td>
-            <a href={`/students/${student.id}`} className="btn btn-sm">
-              <span className="glyphicon glyphicon-eye-open"></span>
-            </a>
+            <NavLink to={`/students/${student.id}`} >
+              <span>{ student.name }</span>
+            </NavLink>
             </td>
-            <td>{ student.name }</td>
             <td>{ student.email }</td>
-            <td>{ campi.filter(campus => student.campusId === campus.id)[0].name }</td>
+            <td><NavLink to={`/campi/${campi.filter(campus => student.campusId === campus.id)[0].id}`}>{ campi.filter(campus => student.campusId === campus.id)[0].name }</NavLink></td>
+            <td><NavLink to="/updateStudent" className="btn" >+</NavLink></td>
+            <td><NavLink to="/deleteStudent" className="btn">X</NavLink></td>
           </tr>
         ))
       }
@@ -46,6 +48,25 @@ const mapStateToProps = function (state, ownProps) {
   };
 
 };
+const mapDispatchToProps = function (dispatch, ownProps) {
+  return {
+    handleClick (evt) {
+      evt.preventDefault();
+      const campus = evt.target.studentCampus.value;
+      const newStudent = {
+        name: evt.target.studentName.value,
+        email: evt.target.studentEmail.value,
+        campusId: Number(campus)
+      }
 
-export default withRouter(connect(mapStateToProps)(Students));
+
+      dispatch(postStudent(newStudent, ownProps.history, campus));
+    }
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Students));
 

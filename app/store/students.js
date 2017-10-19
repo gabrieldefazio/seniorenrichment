@@ -35,7 +35,7 @@ export function fetchStudent(studentId) {
     return axios.get(`/api/students/${studentId}`)
       .then(res => res.data)
       .then(students => {
-        const action = getStudent(students);
+        const action = getStudents(students);
         dispatch(action);
       }).catch();
   };
@@ -60,7 +60,7 @@ export default function reducer (state = [], action) {
   switch (action.type) {
 
     case GET_STUDENT:
-        return [...state.students, action.student];
+        return [...state, action.student];
 
     case GET_STUDENTS:
         return action.students;

@@ -16,7 +16,7 @@ const reducer = combineReducers({
   campi,
   students,
   newCampusEntry,
-  newStudentEntry
+  // newStudentEntry
 });
 
 const store = createStore(

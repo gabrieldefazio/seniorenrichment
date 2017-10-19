@@ -86,3 +86,7 @@ footer .progress-bar {
 .container {
     padding: 2px 16px;
 }
+
+.table { display:table; }
+.table-row { display:table-row; }
+.table-cell { display:table-cell; }

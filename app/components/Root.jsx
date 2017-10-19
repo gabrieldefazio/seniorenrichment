@@ -12,7 +12,7 @@ import store, { fetchCampi, fetchStudents } from '../store/index'
 
 export default class Root extends Component {
 
-  componentDidMount () {
+  componentWillMount () {
     const campiThunk = fetchCampi();
     store.dispatch(campiThunk);
     const studentThunk = fetchStudents();
@@ -29,10 +29,10 @@ export default class Root extends Component {
             <Switch>
             <Route exact path="/" component={Campi} />
             <Route exact path="/campi" component={Campi} />
-            <Route path="/campi/:campusId" component={Campus} />
+            <Route path="/campi/:campusId" render={(routeProps) => <Campus routeProps={routeProps} campi={store.getState().campi}  students={store.getState().students}/>}/>
             <Route exact path="/new-campus" component={NewCampus} />
             <Route exact path="/students" component={Students} />
-            <Route path="/students/:studentsId" render={(routeProps) => <Student routeProps={routeProps}/>} />
+            <Route path="/students/:studentsId" render={(routeProps) => <Student routeProps={routeProps} studentState={store.getState()} />} />
             <Route exact path="/new-student" component={NewStudent} />
             </Switch>
           </div>

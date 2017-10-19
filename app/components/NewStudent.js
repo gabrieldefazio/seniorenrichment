@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
-import { writeStudentCampus, writeStudentName, writeStudentEmail, postStudent } from '../store/index';
+import { postStudent } from '../store/index';
 
 function NewStudent (props) {
 
@@ -14,7 +14,7 @@ function NewStudent (props) {
         <label htmlFor="name">Student Name</label>
         <input
           value={newStudentName}
-          onChange={handleChangeName}
+          // onChange={handleChangeName}
           className="form-control"
           type="text"
           name="studentName"
@@ -23,7 +23,7 @@ function NewStudent (props) {
         <label htmlFor="name">Campus Email</label>
         <input
           value={newStudentEmail}
-          onChange={handleChangeEmail}
+          // onChange={handleChangeEmail}
           className="form-control"
           type="text"
           name="studentEmail"
@@ -31,7 +31,7 @@ function NewStudent (props) {
         />
         <label htmlFor="name">Current Campus</label>
         <select  value={newStudentCampus}
-                 onChange={handleChangeCampus}
+                 // onChange={handleChangeCampus}
                  className="form-control"
                  type="text"
                  name="studentCampus"
@@ -51,41 +51,36 @@ function NewStudent (props) {
 const mapStateToProps = function (state) {
   return {
     campi: state.campi,
-    students:state.campi,
-    newStudentName: state.newStudentName,
-    newStudentEmail: state.newStudentEmail,
-    newStudentCampus: state.newStudentCampus,
-    campi: state.campi
+    students:state.campi
+    // newStudentName: state.newStudentName,
+    // newStudentEmail: state.newStudentEmail,
+    // newStudentCampus: state.newStudentCampus,
   };
 };
 
 const mapDispatchToProps = function (dispatch, ownProps) {
   return {
-    handleChangeName (evt) {
-      dispatch(writeStudentName(evt.target.value));
-    },
-    handleChangeLocation (evt) {
-      dispatch(writeStudentEmail(evt.target.value));
-    },
-    handleChangeCampus(evt) {
-      dispatch(writeStudentCampus(evt.target.value))
-    },
     handleSubmit (evt) {
       evt.preventDefault();
       const campus = evt.target.studentCampus.value;
-      console.log("campus", campus);
       const newStudent = {
         name: evt.target.studentName.value,
         email: evt.target.studentEmail.value,
         campusId: Number(campus)
-      };
+      }
+
+
       dispatch(postStudent(newStudent, ownProps.history, campus));
-      dispatch(writeStudentName(''));
-      dispatch(writeStudentEmail(''));
-      dispatch(writeStudentCampus(''));
     }
-  };
-};
+  }
+}
+    //   dispatch(postStudent(newStudent, ownProps.history, campus));
+    //   // dispatch(writeStudentName(''));
+    //   // dispatch(writeStudentEmail(''));
+    //   // dispatch(writeStudentCampus(''));
+  //   // }
+  // };
+
 
 export default withRouter(connect(
   mapStateToProps,

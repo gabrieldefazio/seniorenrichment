@@ -6,9 +6,9 @@ import Students from "./Students"
 
 
 function Campus (props) {
-
-  const { students } = props;
-  const { campus } = props;
+  const campusId = Number(props.match.params.campusId);
+  const students = props.students.filter(student => student.campusId === campusId);
+  const campus = props.campi.filter(campus => campus.id === campusId)[0];
 
   return (
     <div className="campus">
@@ -22,13 +22,13 @@ function Campus (props) {
 }
 
 const mapStateToProps = function (state, ownProps) {
-  console.log('state of campus',state);
-
-  const campusId = Number(ownProps.match.params.campusId);
+  // console.log('state of campus',ownProps);
+  //
+  // const campusId = Number(ownProps.match.params.campusId);
   return {
-    campus: state.campi.find(campus => campus.id === campusId),
-    students: state.students.filter(student => student.campusId === campusId),
-    campusId
+    // campus: state.campi.find(campus => campus.id === campusId),
+    // students: state.students.filter(student => student.campusId === campusId),
+    // campusId
   };
 };
 

@@ -9,7 +9,6 @@ module.exports = router;
 router.get('/', (req, res, next) => {
   Student.findAll()
     .then(student =>{
-      console.log(student)
       res.json(student)
     })
     .catch(next);
@@ -28,7 +27,6 @@ router.get('/:studentId', (req, res, next) => {
       id: req.params.studentId
     }
   }).then(student =>{
-    console.log(student)
     res.json(student)
   })
     .catch(next);
