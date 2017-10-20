@@ -14,8 +14,18 @@ router.get('/', (req, res, next) => {
     .catch(next);
 });
 
+router.put('/:studentId', (req, res, next) => {
+  Student.update(req.body, {
+    where:{
+      id: req.params.studentId
+    }
+  }).then(campus =>{
+    res.json(campus)
+  })
+    .catch(next);
+})
+
 router.post('/', (req, res, next) => {
-  // res.send(req.body)
   Student.create(req.body)
     .then(student => res.status(201).json(student))
     .catch(next)
@@ -29,5 +39,17 @@ router.get('/:studentId', (req, res, next) => {
   }).then(student =>{
     res.json(student)
   })
+    .catch(next);
+})
+
+router.get('/:studentId/:campusId', (req, res, next) => {
+  Student.destroy({
+    where: {
+      id: req.params.studentId
+    }
+  })
+    .then(() =>{
+      res.redirect(`/campi/${req.params.campusId}`)
+    })
     .catch(next);
 })

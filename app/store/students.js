@@ -29,17 +29,17 @@ export function fetchStudents() {
 
 }
 
-export function fetchStudent(studentId) {
+export function deleteStudent(studentId, campusId, history) {
 
-  return function thunk (dispatch) {
-    return axios.get(`/api/students/${studentId}`)
-      .then(res => res.data)
-      .then(students => {
-        const action = getStudents(students);
-        dispatch(action);
-      }).catch();
-  };
-
+  return function thunk (dispatch, getState) {
+    return axios.get(`/api/students/${studentId}/${campusId}`)
+      .then(() =>{
+        const studentThunk = fetchStudents();
+        dispatch(studentThunk);
+        history.replace(location)
+      })
+      .catch();
+  }
 }
 
 export function postStudent (student, history, campusId) {
@@ -49,6 +49,19 @@ export function postStudent (student, history, campusId) {
       .then(res => res.data)
       .then(newStudent => {
         dispatch(getStudent(newStudent));
+        history.push(`/campi/${campusId}`);
+      });
+  };
+}
+
+export function putStudent (updateStudent, history, studentId, campusId) {
+
+  return function thunk (dispatch) {
+    axios.put(`/api/students/${studentId}`, updateStudent)
+      .then(res => res.data)
+      .then(() => {
+        const studentThunk = fetchStudents();
+        dispatch(studentThunk);
         history.push(`/campi/${campusId}`);
       });
   };

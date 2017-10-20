@@ -24,20 +24,7 @@ export function fetchCampi() {
       .then(campi => {
         const action = getCampi(campi);
         dispatch(action);
-      }).catch();
-  };
-
-}
-
-export function fetchCampus(campusId) {
-
-  return function thunk (dispatch) {
-    return axios.get(`/api/campus/${campusId}`)
-      .then(res => res.data)
-      .then(campus => {
-        const action = getCampus(campus);
-        dispatch(action);
-      }).catch();
+      })
   };
 
 }
@@ -52,6 +39,36 @@ export function postCampus (campus, history) {
         history.push(`/campi/${newCampus.id}`);
       });
   };
+}
+
+export function putCampus(campus, campusId, history) {
+
+  return function thunk (dispatch) {
+    return axios.put(`/api/campus/${campusId}`, campus)
+      .then(res => res.data)
+      .then(newCampus => {
+        const campiThunk = fetchCampi();
+        dispatch(campiThunk);
+        history.push(`/campi/${campusId}`);
+      });
+  };
+
+}
+
+export function deleteCampus(campusId, history) {
+
+  return function thunk (dispatch, getState) {
+    axios.get(`/api/campus/${campusId}/delete`)
+      .then(() => {
+        const campiThunk = fetchCampi();
+        dispatch(campiThunk);
+        dispatch(action);
+      })
+        .then(()=>{
+        history.push(`/campi`);
+        })
+      .catch();
+  }
 }
 
 // REDUCER

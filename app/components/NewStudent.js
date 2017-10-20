@@ -1,20 +1,36 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
-import { postStudent } from '../store/index';
+import { postStudent, putStudent } from '../store/index';
 
 function NewStudent (props) {
 
-  const { handleSubmit, handleChangeName, handleChangeEmail, handleChangeCampus,
-          newStudentName, newStudentEmail, newStudentCampus, campi } = props;
+  const { handleSubmitNew, handleSubmitUpdate, campi, students } = props;
+
+  let studentId = Number(props.match.params.studentId)
+  console.log(props)
+  const updateStudent = students.filter(student => student.id === studentId)[0];
+  console.log('XXX',updateStudent)
+  const newStudent =  updateStudent ?
+    {
+      name: updateStudent.name,
+      email:  updateStudent.email,
+      campus: updateStudent.campusId
+    }
+    :
+    {
+      name: '',
+      email: '',
+      campus: ''
+    }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={studentId ? handleSubmitUpdate : handleSubmitNew }>
       <div className="form-group">
         <label htmlFor="name">Student Name</label>
         <input
-          value={newStudentName}
-          // onChange={handleChangeName}
+          defaultValue={newStudent.name}
+          title={studentId}
           className="form-control"
           type="text"
           name="studentName"
@@ -22,16 +38,14 @@ function NewStudent (props) {
         />
         <label htmlFor="name">Campus Email</label>
         <input
-          value={newStudentEmail}
-          // onChange={handleChangeEmail}
+          defaultValue={newStudent.email}
           className="form-control"
           type="text"
           name="studentEmail"
           placeholder="Enter student's email"
         />
         <label htmlFor="name">Current Campus</label>
-        <select  value={newStudentCampus}
-                 // onChange={handleChangeCampus}
+        <select  defaultValue={newStudent.campus}
                  className="form-control"
                  type="text"
                  name="studentCampus"
@@ -42,25 +56,22 @@ function NewStudent (props) {
         </select>
       </div>
       <div className="form-group">
-        <button type="submit" className="btn btn-default">Create Student</button>
+        <button type="submit" className="btn btn-default">{studentId ? "Update Student" : "Create Student" }</button>
       </div>
     </form>
   );
 }
 
-const mapStateToProps = function (state) {
+const mapStateToProps = function (state, ownProps) {
   return {
     campi: state.campi,
-    students:state.campi
-    // newStudentName: state.newStudentName,
-    // newStudentEmail: state.newStudentEmail,
-    // newStudentCampus: state.newStudentCampus,
+    students: state.students
   };
 };
 
 const mapDispatchToProps = function (dispatch, ownProps) {
   return {
-    handleSubmit (evt) {
+    handleSubmitNew (evt) {
       evt.preventDefault();
       const campus = evt.target.studentCampus.value;
       const newStudent = {
@@ -68,18 +79,22 @@ const mapDispatchToProps = function (dispatch, ownProps) {
         email: evt.target.studentEmail.value,
         campusId: Number(campus)
       }
-
-
       dispatch(postStudent(newStudent, ownProps.history, campus));
+    },
+
+    handleSubmitUpdate (evt) {
+      evt.preventDefault();
+      const campus = evt.target.studentCampus.value;
+      const studentId = evt.target.studentName.title
+      const newStudent = {
+        name: evt.target.studentName.value,
+        email: evt.target.studentEmail.value,
+        campusId: Number(campus)
+      }
+      dispatch(putStudent(newStudent, ownProps.history, studentId, campus));
     }
   }
 }
-    //   dispatch(postStudent(newStudent, ownProps.history, campus));
-    //   // dispatch(writeStudentName(''));
-    //   // dispatch(writeStudentEmail(''));
-    //   // dispatch(writeStudentCampus(''));
-  //   // }
-  // };
 
 
 export default withRouter(connect(

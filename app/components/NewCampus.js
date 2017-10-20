@@ -1,20 +1,34 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter, NavLink } from 'react-router-dom';
-import { writeCampusName, writeCampusLocation, writeCampusImage, postCampus } from '../store/index';
+import { withRouter } from 'react-router-dom';
+import { postCampus, putCampus } from '../store/index';
 
 function NewCampus (props) {
+  const { handleSubmitNew, handleSubmitUpdate, campi } = props;
 
-  const { handleSubmit, handleChangeName, handleChangeImage, handleChangeLocation,
-          newCampusName, newCampusLocation, newCampusImage } = props;
+  let campusId = Number(props.match.params.campusId)
+  const updateCampus = campusId ? campi.filter(campus => campus.id === campusId)[0] : undefined;
+
+  const newCampus =  updateCampus ?
+    {
+      name: updateCampus.name,
+      location:  updateCampus.location,
+      image: updateCampus.image
+    }
+    :
+    {
+      name: '',
+      location: '',
+      image: ''
+    }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={campusId ? handleSubmitUpdate : handleSubmitNew}>
       <div className="form-group">
         <label htmlFor="name">Campus Name</label>
         <input
-          // value={newCampusName}
-          // onChange={handleChangeName}
+          defaultValue={newCampus.name}
+          title={campusId}
           className="form-control"
           type="text"
           name="campusName"
@@ -22,8 +36,7 @@ function NewCampus (props) {
         />
         <label htmlFor="name">Campus Location</label>
         <input
-          // value={newCampusLocation}
-          // onChange={handleChangeLocation}
+          defaultValue={newCampus.location}
           className="form-control"
           type="text"
           name="campusLocation"
@@ -31,8 +44,7 @@ function NewCampus (props) {
         />
         <label htmlFor="name">Link to an Image of the Campus</label>
         <input
-          // value={newCampusImage}
-          // onChange={handleChangeImage}
+          defaultValue={newCampus.image}
           className="form-control"
           type="text"
           name="campusImage"
@@ -40,42 +52,39 @@ function NewCampus (props) {
         />
       </div>
       <div className="form-group">
-        <button type="submit" className="btn btn-default">Create Campus</button>
+        <button type="submit" className="btn btn-default">{ campusId ? "Update Campus" : "Create Campus" }</button>
       </div>
     </form>
   );
 }
 
-const mapStateToProps = function (state) {
+const mapStateToProps = function (state, ownProps) {
   return {
-    newCampusName: state.newCampusName,
-    newCampusLocation: state.newCampusLocation,
-    newCampusImage: state.newCampusImage
+    campi: state.campi,
+    students: state.students
   };
 };
 
 const mapDispatchToProps = function (dispatch, ownProps) {
   return {
-    // handleChangeName (evt) {
-    //   dispatch(writeCampusName(evt.target.value));
-    // },
-    // handleChangeLocation (evt) {
-    //   dispatch(writeCampusLocation(evt.target.value));
-    // },
-    // handleChangeImage (evt) {
-    //   dispatch(writeCampusImage(evt.target.value));
-    // },
-    handleSubmit (evt) {
+    handleSubmitNew (evt) {
       evt.preventDefault();
       const newCampus = {
         name: evt.target.campusName.value,
         location: evt.target.campusLocation.value,
         image: evt.target.campusImage.value
-    };
+      };
       dispatch(postCampus(newCampus, ownProps.history));
-      // dispatch(writeCampusLocation(''));
-      // dispatch(writeCampusName(''));
-      // dispatch(writeCampusImage(''));
+    },
+
+    handleSubmitUpdate(evt){
+      evt.preventDefault();
+      const updateCampus = {
+        name: evt.target.campusName.value,
+        location: evt.target.campusLocation.value,
+        image: evt.target.campusImage.value
+      };
+      dispatch(putCampus(updateCampus, evt.target.campusName.title, ownProps.history));
     }
   };
 };

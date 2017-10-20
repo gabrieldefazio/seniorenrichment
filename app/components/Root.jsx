@@ -5,7 +5,7 @@ import Student from './Student'
 import NewCampus from './NewCampus'
 import NewStudent from './NewStudent'
 import React, { Component } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import store, { fetchCampi, fetchStudents } from '../store/index'
 
@@ -29,11 +29,13 @@ export default class Root extends Component {
             <Switch>
             <Route exact path="/" component={Campi} />
             <Route exact path="/campi" component={Campi} />
-            <Route path="/campi/:campusId" render={(routeProps) => <Campus routeProps={routeProps} campi={store.getState().campi}  students={store.getState().students}/>}/>
+            <Route path="/campi/:campusId" component={Campus} />
             <Route exact path="/new-campus" component={NewCampus} />
+            <Route exact path={`/new-campus/:campusId`} component={NewCampus} />
             <Route exact path="/students" component={Students} />
-            <Route path="/students/:studentsId" render={(routeProps) => <Student routeProps={routeProps} studentState={store.getState()} />} />
+            <Route path="/students/:studentsId" component={Student}/>
             <Route exact path="/new-student" component={NewStudent} />
+            <Route path="/new-student/:studentId" component={NewStudent} />
             </Switch>
           </div>
         </div>
