@@ -75,5 +75,5 @@ DELETE
 - a student
 ```
 
-#### [Video Walkthrough](https://support.apple.com/kb/PH5882?locale=en_US&viewlocale=en_US)
+#### Video Walkthrough available[ here!](https://www.youtube.com/watch?v=Dafcb9c6Q9g&feature=youtu.be)
 
