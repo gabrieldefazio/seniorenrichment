@@ -4,7 +4,7 @@ This RESTful web platform, built with sequelize, express, react, and redux allow
 
 ### Run the app on Heroku by [clicking here](http://campi-man.herokuapp.com/) 
 
-####Install locally by doing the following:
+#### Install locally by doing the following:
 
 1. Fork and clone this repo
 2. *Set the name of your project in `package.json`*. The skeleton intentionally ships with an invalid name.
