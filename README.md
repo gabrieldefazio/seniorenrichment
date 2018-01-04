@@ -2,9 +2,9 @@
 
 This RESTful web platform, built with sequelize, express, react, and redux allows Users to manage campuses and their students.
 
-## Getting started
+### Run the app on Heroku by [clicking here](http://campi-man.herokuapp.com/) 
 
-##### Run the app on Heroku by [clicking here](http://campi-man.herokuapp.com/), or install locally by doing the following:
+####Install locally by doing the following:
 
 1. Fork and clone this repo
 2. *Set the name of your project in `package.json`*. The skeleton intentionally ships with an invalid name.
